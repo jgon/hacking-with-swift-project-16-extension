@@ -38,8 +38,8 @@
 		C49DE33D1C74E5F1001C1598 = {
 			isa = PBXGroup;
 			children = (
-				C49DE3481C74E5F1001C1598 /* Project16 */,
 				C49DE3471C74E5F1001C1598 /* Products */,
+				C49DE3481C74E5F1001C1598 /* Project16 */,
 			);
 			sourceTree = "<group>";
 		};
