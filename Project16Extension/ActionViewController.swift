@@ -73,6 +73,37 @@ class ActionViewController: UIViewController {
                 }
             }
         }
+        
+        // Registering for keyboard notifications.
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        // Don't forget the ":" at the end in "adjustForKeyboard:".
+        notificationCenter.addObserver(self, selector: "adjustForKeyboard:", name: UIKeyboardWillHideNotification, object: nil)
+        notificationCenter.addObserver(self, selector: "adjustForKeyboard:", name: UIKeyboardWillChangeFrameNotification, object: nil)
+    }
+    
+    // Used to adjust the text view content inset to the keyboard.
+    func adjustForKeyboard(notification: NSNotification) {
+        let userInfo = notification.userInfo!
+        
+        // Getting information about the keyboad location and size.
+        let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        
+        // Converting the keyboard coordinates into the ones of the view.
+        let keyboardViewEndFrame = view.convertRect(keyboardScreenEndFrame, fromView: view.window)
+        
+        // Calculates the text view (script) content inset based on whether the keyboard is visible or not.
+        if notification.name == UIKeyboardWillHideNotification {
+            script.contentInset = UIEdgeInsetsZero
+        } else {
+            script.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height, right: 0)
+        }
+        
+        // Updates the text view (script) scroll indicator insets
+        script.scrollIndicatorInsets = script.contentInset
+        
+        // Scrolls the text view to the selected text.
+        let selectedRange = script.selectedRange
+        script.scrollRangeToVisible(selectedRange)
     }
 
     override func didReceiveMemoryWarning() {
