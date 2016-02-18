@@ -7,7 +7,11 @@ run: function(parameters) {
 },
     
 finalize: function(parameters) {
-    
+    // Make sure the parameters name match the one defined in
+    //  [NSExtensionJavaScriptFinalizeArgumentKey: ["customJavaScript": script.text]]
+    // else parameters value will be undefined.
+    var customJavascript = parameters["customJavaScript"];
+    eval(customJavascript)
 }
     
 };
